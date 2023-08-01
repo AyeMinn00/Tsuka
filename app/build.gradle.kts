@@ -53,7 +53,7 @@ android {
     }
 
     buildFeatures {
-//        buildConfig = true
+        buildConfig = true
         compose = true
     }
 
@@ -88,6 +88,7 @@ dependencies {
 
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.9.0")
 
     // Compose
     val composeBom = platform("androidx.compose:compose-bom:2023.06.01")
