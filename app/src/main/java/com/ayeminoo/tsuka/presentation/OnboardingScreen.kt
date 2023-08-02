@@ -5,6 +5,8 @@ import androidx.compose.runtime.Composable
 
 
 @Composable
-fun OnboardingScreen() {
+fun OnboardingScreen(
+    viewModel: MainViewModel
+) {
     Text(text = "Onboarding")
 }

@@ -6,7 +6,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
-    id("org.jetbrains.kotlin.plugin.serialization")
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
 }
 
 android {
@@ -69,16 +69,16 @@ android {
             val prop = Properties().apply {
                 load(FileInputStream(File(rootProject.rootDir, "local.properties")))
             }
-            val apiKey = prop.getProperty("API_KEY") ?: ""
-            buildConfigField("String", "API_KEY", apiKey)
+            val appID = prop.getProperty("APP_ID") ?: ""
+            buildConfigField("String", "APP_ID", appID)
         }
         create("prod") {
             dimension = "mode"
             val prop = Properties().apply {
                 load(FileInputStream(File(rootProject.rootDir, "local.properties")))
             }
-            val apiKey = prop.getProperty("API_KEY") ?: ""
-            buildConfigField("String", "API_KEY", apiKey)
+            val appID = prop.getProperty("APP_ID") ?: ""
+            buildConfigField("String", "APP_ID", appID)
         }
     }
 
@@ -126,15 +126,11 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     androidTestImplementation("androidx.navigation:navigation-testing:2.6.0")
 
-    // Logger
     implementation("com.jakewharton.timber:timber:5.0.1")
-
-    // Json Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
     implementation("io.github.serpro69:kotlin-faker:1.14.0")
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
 }
