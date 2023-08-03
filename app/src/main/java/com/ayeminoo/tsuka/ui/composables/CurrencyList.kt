@@ -17,6 +17,7 @@ fun CurrencyList(
     data: List<Currency>
 ) {
 
+
     LazyColumn(
         modifier = modifier,
         content = {

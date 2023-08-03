@@ -25,7 +25,7 @@ class MainViewModel @Inject constructor(
         convertCurrency()
     }
 
-    private fun convertCurrency() {
+    fun convertCurrency() {
         viewModelScope.launch {
             when (val rates = convertCurrencyUseCase(Unit)) {
                 is DataState.Success -> _currencies.update { rates.data.toDomainModel() }

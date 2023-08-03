@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TsukaTheme {
-                CurrencyScreen(
+                CurrencyHomeScreen(
                     modifier = Modifier.fillMaxWidth(),
                     viewModel = hiltViewModel()
                 )
