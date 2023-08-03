@@ -1,4 +1,4 @@
-package com.ayeminoo.tsuka.data.utils
+package com.ayeminoo.tsuka.data.api
 
 import com.ayeminoo.tsuka.data.api.model.DataState
 import com.ayeminoo.tsuka.data.api.model.DataState.Error
@@ -14,9 +14,8 @@ inline fun <T> safeApiCall(apiCall: () -> Response<T>): DataState<T> {
             val body = response.body()
             return if (body == null) {
                 Error(
-                    error = "",
                     statusCode = code,
-                    body = null
+                    error = "",
                 )
             } else {
                 Success(
@@ -28,13 +27,11 @@ inline fun <T> safeApiCall(apiCall: () -> Response<T>): DataState<T> {
         return Error(
             statusCode = code,
             error = response.message(),
-            response.errorBody()
         )
     } catch (e: Exception) {
         return Error(
             statusCode = 105,
             e.message ?: "Unknown Error",
-            null
         )
     }
 

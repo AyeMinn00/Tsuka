@@ -2,10 +2,11 @@ import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    kotlin("kapt")
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("kotlin-parcelize")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
 }
 

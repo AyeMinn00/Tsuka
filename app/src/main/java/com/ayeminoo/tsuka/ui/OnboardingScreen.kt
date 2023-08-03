@@ -1,4 +1,4 @@
-package com.ayeminoo.tsuka.presentation
+package com.ayeminoo.tsuka.ui
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable

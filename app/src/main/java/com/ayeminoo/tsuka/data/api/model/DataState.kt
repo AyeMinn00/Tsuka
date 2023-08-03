@@ -1,6 +1,5 @@
 package com.ayeminoo.tsuka.data.api.model
 
-import okhttp3.ResponseBody
 
 sealed class DataState<out R> {
 
@@ -12,7 +11,6 @@ sealed class DataState<out R> {
     data class Error(
         val statusCode: Int,
         val error: String,
-        val body: ResponseBody?
     ) : DataState<Nothing>()
 
 

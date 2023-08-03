@@ -1,8 +1,10 @@
-package com.ayeminoo.tsuka.presentation
+package com.ayeminoo.tsuka.ui
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ayeminoo.tsuka.theme.TsukaTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,7 +16,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TsukaTheme {
-                OnboardingScreen(hiltViewModel())
+                CurrencyScreen(
+                    modifier = Modifier.fillMaxWidth(),
+                    viewModel = hiltViewModel()
+                )
             }
         }
     }
