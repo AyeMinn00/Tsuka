@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Currency(
     val currencyCode : String ,
-    val amount : Float
+    val amount : String
 ) : Parcelable{
 
 }

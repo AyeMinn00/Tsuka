@@ -1,4 +1,4 @@
-package com.ayeminoo.tsuka.data
+package com.ayeminoo.tsuka.domain
 
 import com.ayeminoo.tsuka.data.api.model.DataState
 import com.ayeminoo.tsuka.data.api.model.LatestJson

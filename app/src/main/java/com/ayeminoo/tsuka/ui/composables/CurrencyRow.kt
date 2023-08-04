@@ -28,7 +28,7 @@ fun CurrencyRow(
         )
         Spacer(modifier = Modifier.weight(1f, fill = true))
         Text(
-            text = currency.amount.toString(),
+            text = currency.amount,
             style = MaterialTheme.typography.body2,
             color = Color.Gray
         )
@@ -44,6 +44,6 @@ fun CurrencyRow(
 fun CurrencyRow_Preview() {
     CurrencyRow(
         modifier = Modifier.fillMaxWidth(),
-        currency = Currency(currencyCode = "USD", 234.567f)
+        currency = Currency(currencyCode = "USD", "234.567")
     )
 }

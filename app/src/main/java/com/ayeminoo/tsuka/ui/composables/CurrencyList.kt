@@ -17,7 +17,6 @@ fun CurrencyList(
     data: List<Currency>
 ) {
 
-
     LazyColumn(
         modifier = modifier,
         content = {
@@ -42,6 +41,6 @@ fun CurrencyList(
 )
 @Composable
 fun CurrencyList_Preview() {
-    val data = listOf(Currency("USD", 0.23f), Currency("THB", 1243f), Currency("JPY", 527329f))
+    val data = listOf(Currency("USD", "0.23"), Currency("THB", "1243"), Currency("JPY", "527329"))
     CurrencyList(data = data)
 }

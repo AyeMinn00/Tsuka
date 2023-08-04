@@ -1,7 +1,7 @@
 package com.ayeminoo.tsuka.di
 
 import com.ayeminoo.tsuka.data.api.services.OpenExchangeApiService
-import com.ayeminoo.tsuka.data.CurrencyDataSource
+import com.ayeminoo.tsuka.domain.CurrencyDataSource
 import com.ayeminoo.tsuka.data.RemoteCurrencyDataSource
 import dagger.Module
 import dagger.Provides

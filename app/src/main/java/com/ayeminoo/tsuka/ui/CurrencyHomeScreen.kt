@@ -18,8 +18,7 @@ fun CurrencyHomeScreen(
         modifier = modifier,
         data = currencies,
         updatedTime = "12/2/2022",
-        onClickUpdate = {
-            viewModel.convertCurrency()
-        }
+        onClickUpdate = viewModel::convertCurrency,
+        onUpdateAmount = viewModel::convertAmount
     )
 }

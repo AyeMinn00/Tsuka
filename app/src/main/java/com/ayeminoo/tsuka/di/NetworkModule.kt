@@ -9,6 +9,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import kotlinx.serialization.json.Json
+import okhttp3.logging.HttpLoggingInterceptor
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -27,7 +28,8 @@ object NetworkModule {
         RetrofitProvider(
             apiUrl = "https://openexchangerates.org/",
             appId = BuildConfig.APP_ID,
-            json
+            json = json,
+            logLevel = HttpLoggingInterceptor.Level.BASIC
         )
             .provide()
             .create(OpenExchangeApiService::class.java)

@@ -11,4 +11,4 @@ data class LatestJson(
     @SerialName("rates") val rates: Map<String, Float> = emptyMap(),
 )
 
-fun LatestJson.toDomainModel() : List<Currency> = rates.map { Currency(it.key, it.value) }
+fun LatestJson.toDomainModel() : List<Currency> = rates.map { Currency(it.key, it.value.toString()) }
