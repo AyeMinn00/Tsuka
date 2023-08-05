@@ -1,4 +1,4 @@
-package com.ayeminoo.tsuka.data.local
+package com.ayeminoo.tsuka.data.local.db
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

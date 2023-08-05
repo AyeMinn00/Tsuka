@@ -9,4 +9,8 @@ interface CurrencyRepository {
 
     suspend fun refreshCurrencyFromNetwork()
 
+    fun getBaseCurrency(): Flow<String>
+
+    suspend fun setBaseCurrency(cur: String)
+
 }

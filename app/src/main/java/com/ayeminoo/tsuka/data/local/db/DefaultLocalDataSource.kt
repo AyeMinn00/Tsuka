@@ -1,4 +1,4 @@
-package com.ayeminoo.tsuka.data.local
+package com.ayeminoo.tsuka.data.local.db
 
 import com.ayeminoo.tsuka.domain.LocalDataSource
 import javax.inject.Inject

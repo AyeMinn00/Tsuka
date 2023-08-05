@@ -3,44 +3,43 @@ package com.ayeminoo.tsuka.ui.composables
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.ayeminoo.tsuka.models.Currency
 import com.ayeminoo.tsuka.models.InputType
+import com.ayeminoo.tsuka.theme.TsukaTheme
 import com.ayeminoo.tsuka.utils.Calculator
 
 @Composable
 fun CurrencyHomeContent(
     modifier: Modifier = Modifier,
     data: List<Currency>,
+    baseCurrency: String,
     amount: String,
     updatedTime: String,
     onClickUpdate: () -> Unit,
-    onUpdateAmount: (String) -> Unit
+    onUpdateAmount: (String) -> Unit,
+    onClickBaseCurrency: () -> Unit
 ) {
 
     Column(
         modifier = modifier
     ) {
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp, horizontal = 16.dp),
-            text = amount,
-            color = Color.Black,
-            textAlign = TextAlign.End
+        // Input for amount
+        BaseCurrencyAndInputRow(
+            baseCurrency = baseCurrency,
+            amount = amount,
+            onClickBaseCurrency = onClickBaseCurrency
         )
 
+        // Available Currencies
         CurrencyList(
             modifier = Modifier.weight(1f, fill = true), data = data
         )
+
+        // Number Inputs
         NumberPad(
             onInput = { type ->
                 when (type) {
@@ -66,6 +65,8 @@ fun CurrencyHomeContent(
                     }
                 }
             })
+
+        // To show updated rate
         UpdateStatusBar(
             modifier = Modifier.background(Color.LightGray),
             updatedTime = updatedTime,
@@ -82,10 +83,15 @@ fun CurrencyHomeContent(
 )
 @Composable
 fun CurrencyHomeContentPreview() {
-    val data = listOf(Currency("USD", "0.23"), Currency("THB", "1243"), Currency("JPY", "527329f"))
-    CurrencyHomeContent(data = data,
-        updatedTime = "12/2/2022",
-        amount = "1.3",
-        onClickUpdate = { },
-        onUpdateAmount = {})
+    val data = listOf(Currency("USD", "0.23"), Currency("THB", "1243"), Currency("JPY", "527329"))
+    TsukaTheme {
+        CurrencyHomeContent(data = data,
+            updatedTime = "12/2/2022",
+            baseCurrency = "THB",
+            amount = "1.3",
+            onClickUpdate = { },
+            onUpdateAmount = {},
+            onClickBaseCurrency = {}
+        )
+    }
 }

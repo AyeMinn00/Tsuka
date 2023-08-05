@@ -10,17 +10,21 @@ import com.ayeminoo.tsuka.ui.composables.CurrencyHomeContent
 @Composable
 fun CurrencyHomeScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    onSelectBaseCurrency : () -> Unit
 ) {
     val currencies: List<Currency> by viewModel.currencies.collectAsState()
-    val amount : String by viewModel.amount.collectAsState()
+    val amount: String by viewModel.amount.collectAsState()
+    val baseCurrency: String by viewModel.baseCurrency.collectAsState()
 
     CurrencyHomeContent(
         modifier = modifier,
         data = currencies,
+        baseCurrency = baseCurrency,
         amount = amount,
         updatedTime = "12/2/2022",
         onClickUpdate = viewModel::refreshData,
-        onUpdateAmount = viewModel::convertAmount
+        onUpdateAmount = viewModel::convertAmount,
+        onClickBaseCurrency = onSelectBaseCurrency
     )
 }

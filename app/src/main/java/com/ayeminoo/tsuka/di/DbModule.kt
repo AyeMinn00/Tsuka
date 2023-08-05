@@ -2,7 +2,7 @@ package com.ayeminoo.tsuka.di
 
 import android.content.Context
 import androidx.room.Room
-import com.ayeminoo.tsuka.data.local.CurrencyDb
+import com.ayeminoo.tsuka.data.local.db.CurrencyDb
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

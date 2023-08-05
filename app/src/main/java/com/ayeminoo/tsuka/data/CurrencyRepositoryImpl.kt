@@ -2,8 +2,9 @@ package com.ayeminoo.tsuka.data
 
 import com.ayeminoo.tsuka.data.api.model.DataState.Error
 import com.ayeminoo.tsuka.data.api.model.DataState.Success
-import com.ayeminoo.tsuka.data.local.CurrencyEntity
-import com.ayeminoo.tsuka.data.local.toDomainModel
+import com.ayeminoo.tsuka.data.local.datastore.PrefStore
+import com.ayeminoo.tsuka.data.local.db.CurrencyEntity
+import com.ayeminoo.tsuka.data.local.db.toDomainModel
 import com.ayeminoo.tsuka.di.IoDispatcher
 import com.ayeminoo.tsuka.domain.CurrencyRepository
 import com.ayeminoo.tsuka.domain.LocalDataSource
@@ -20,6 +21,7 @@ import timber.log.Timber
 class CurrencyRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource,
+    private val prefDataSource: PrefStore,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : CurrencyRepository {
 
@@ -36,9 +38,6 @@ class CurrencyRepositoryImpl @Inject constructor(
                 is Success -> {
                     localDataSource.insertCurrency(
                         response.data.rates
-//                            .filter {
-//                                (it.key == "JPY" || it.key == "MMK" || it.key == "THB")
-//                            }
                             .map { map ->
                                 CurrencyEntity(
                                     map.key,
@@ -52,6 +51,14 @@ class CurrencyRepositoryImpl @Inject constructor(
                 }
             }
         }
+    }
+
+    override fun getBaseCurrency(): Flow<String> {
+        return prefDataSource.getBaseCurrency
+    }
+
+    override suspend fun setBaseCurrency(cur: String) {
+        prefDataSource.saveBaseCurrency(cur)
     }
 
 

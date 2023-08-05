@@ -29,7 +29,7 @@ fun UpdateStatusBar(
 ) {
     Row(
         modifier = modifier
-            .padding(horizontal = 8.dp, vertical = 12.dp),
+            .padding(horizontal = 8.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(

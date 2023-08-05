@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ayeminoo.tsuka.constants.Constants.DEFAULT_BASE_CURRENCY
 import com.ayeminoo.tsuka.constants.Constants.DEFAULT_INPUT
-import com.ayeminoo.tsuka.data.api.model.LatestJson
 import com.ayeminoo.tsuka.domain.CurrencyRepository
 import com.ayeminoo.tsuka.models.Currency
 import com.ayeminoo.tsuka.utils.CurrencyConverter
@@ -28,8 +27,6 @@ class MainViewModel @Inject constructor(
     private val _amount = MutableStateFlow(DEFAULT_INPUT)
     val amount = _amount.asStateFlow()
 
-    private var json: LatestJson? = null
-
     private val _currencies = MutableStateFlow<List<Currency>>(emptyList())
     val currencies = _currencies.asStateFlow()
 
@@ -40,11 +37,21 @@ class MainViewModel @Inject constructor(
                 onUpdateCurrencies(rates)
             }
         }
+        viewModelScope.launch {
+            repo.getBaseCurrency().collect { currentBaseCurrency ->
+                _baseCurrency.update { currentBaseCurrency }
+                onUpdateCurrencies(currentBaseCurrency)
+            }
+        }
         refreshData()
     }
 
     private fun onUpdateCurrencies(list: List<Currency>) {
         convertAmount(base = _baseCurrency.value, amount = _amount.value, data = list)
+    }
+
+    private fun onUpdateCurrencies(base: String) {
+        convertAmount(base, amount = _amount.value, data = rates)
     }
 
     fun refreshData() {
@@ -63,9 +70,6 @@ class MainViewModel @Inject constructor(
             emptyList()
         } else {
             CurrencyConverter(5, RoundingMode.HALF_UP).convert2(base, amount, data)
-//                .filter {
-//                    (it.currencyCode == "JPY" || it.currencyCode == "MMK" || it.currencyCode == "BTC" || it.currencyCode == "XPD")
-//                }
         }
         _currencies.update { newData }
     }
