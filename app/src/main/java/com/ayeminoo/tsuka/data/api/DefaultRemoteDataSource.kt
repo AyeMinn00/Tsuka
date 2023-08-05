@@ -1,15 +1,14 @@
-package com.ayeminoo.tsuka.data
+package com.ayeminoo.tsuka.data.api
 
 import com.ayeminoo.tsuka.data.api.model.DataState
 import com.ayeminoo.tsuka.data.api.model.LatestJson
 import com.ayeminoo.tsuka.data.api.services.OpenExchangeApiService
-import com.ayeminoo.tsuka.data.api.safeApiCall
-import com.ayeminoo.tsuka.domain.CurrencyDataSource
+import com.ayeminoo.tsuka.domain.RemoteDataSource
 import javax.inject.Inject
 
-class RemoteCurrencyDataSource @Inject constructor(
+class DefaultRemoteDataSource @Inject constructor(
     private val openExchangeApiService: OpenExchangeApiService
-) : CurrencyDataSource {
+) : RemoteDataSource {
     override suspend fun getLatestCurrency(): DataState<LatestJson> {
         return safeApiCall { openExchangeApiService.fetchLatest() }
     }

@@ -13,12 +13,14 @@ fun CurrencyHomeScreen(
     viewModel: MainViewModel
 ) {
     val currencies: List<Currency> by viewModel.currencies.collectAsState()
+    val amount : String by viewModel.amount.collectAsState()
 
     CurrencyHomeContent(
         modifier = modifier,
         data = currencies,
+        amount = amount,
         updatedTime = "12/2/2022",
-        onClickUpdate = viewModel::convertCurrency,
+        onClickUpdate = viewModel::refreshData,
         onUpdateAmount = viewModel::convertAmount
     )
 }

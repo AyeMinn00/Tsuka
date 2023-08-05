@@ -1,8 +1,11 @@
 package com.ayeminoo.tsuka.di
 
+import com.ayeminoo.tsuka.data.api.DefaultRemoteDataSource
 import com.ayeminoo.tsuka.data.api.services.OpenExchangeApiService
-import com.ayeminoo.tsuka.domain.CurrencyDataSource
-import com.ayeminoo.tsuka.data.RemoteCurrencyDataSource
+import com.ayeminoo.tsuka.data.local.CurrencyDao
+import com.ayeminoo.tsuka.data.local.DefaultLocalDataSource
+import com.ayeminoo.tsuka.domain.LocalDataSource
+import com.ayeminoo.tsuka.domain.RemoteDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +18,12 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideOpenExchangeDataSource(apiService: OpenExchangeApiService): CurrencyDataSource =
-        RemoteCurrencyDataSource(apiService)
+    fun provideRemoteDataSource(apiService: OpenExchangeApiService): RemoteDataSource =
+        DefaultRemoteDataSource(apiService)
+
+    @Provides
+    @Singleton
+    fun provideLocalDataSource(dao: CurrencyDao): LocalDataSource = DefaultLocalDataSource(dao)
+
 
 }

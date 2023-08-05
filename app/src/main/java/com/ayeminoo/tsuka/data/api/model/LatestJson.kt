@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 data class LatestJson(
     @SerialName("base") val base: String,
     @SerialName("timestamp") val timeStamp: Long,
-    @SerialName("rates") val rates: Map<String, Float> = emptyMap(),
+    @SerialName("rates") val rates: Map<String, Double> = emptyMap(),
 )
 
 fun LatestJson.toDomainModel() : List<Currency> = rates.map { Currency(it.key, it.value.toString()) }

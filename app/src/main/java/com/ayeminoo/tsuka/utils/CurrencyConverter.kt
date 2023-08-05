@@ -36,17 +36,22 @@ class CurrencyConverter(
 //        }
     }
 
-    fun convert2(baseCurrency: String, amount: String, data: Map<String, Float>): List<Currency>? {
+    fun convert2(baseCurrency: String, amount: String, rates: List<Currency>): List<Currency> {
+        val data: Map<String, String> = rates.associateBy({ it.currencyCode }, { it.amount })
         if (baseCurrency == Constants.DEFAULT_BASE_CURRENCY)
             return data.map {
                 Currency(
                     it.key,
-                    it.value.toString()
+                    it.value.toBigDecimal().multiply(amount.toBigDecimal()).toPlainString()
                 )
             }
 
-        val bigAmount = amount.toBigDecimal()
-        val fromBigValue = data[baseCurrency]?.toBigDecimal() ?: return null
+        val bigAmount = try {
+            amount.toBigDecimal()
+        } catch (ne: NumberFormatException) {
+            return emptyList()
+        }
+        val fromBigValue = data[baseCurrency]?.toBigDecimal() ?: return emptyList()
         return data.map {
             val bigValue = it.value.toBigDecimal()
             val convertedValue = convertCurrency(
@@ -56,14 +61,13 @@ class CurrencyConverter(
             )
             Currency(
                 it.key,
-                convertedValue.toString()
+                convertedValue.toPlainString()
             )
         }
-
     }
 
 
-    fun convertCurrency(amount: BigDecimal, fromRate: Double, toRate: Double): BigDecimal {
+    private fun convertCurrency(amount: BigDecimal, fromRate: Double, toRate: Double): BigDecimal {
         val valueInDollars = convertAnyCurrencyToDollar(amount, fromRate)
         return convertDollarToAnyCurrency(valueInDollars, toRate)
     }

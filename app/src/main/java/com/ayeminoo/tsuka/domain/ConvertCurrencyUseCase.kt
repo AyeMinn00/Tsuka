@@ -7,7 +7,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 
 class ConvertCurrencyUseCase @Inject constructor(
-    private val dataSource: CurrencyDataSource,
+    private val dataSource: RemoteDataSource,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ) : ApiUseCase<Unit, LatestJson>(dispatcher) {
 

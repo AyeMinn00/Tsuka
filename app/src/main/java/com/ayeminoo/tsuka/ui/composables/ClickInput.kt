@@ -1,7 +1,8 @@
 package com.ayeminoo.tsuka.ui.composables
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,21 +26,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ClickInput(
     modifier: Modifier = Modifier,
     text: String?,
     icon: ImageVector?,
     onClick: () -> Unit,
+    onLongPress: () -> Unit = {},
     paddingValues: PaddingValues = PaddingValues(horizontal = 4.dp, vertical = 16.dp)
 ) {
     Box(
         modifier = modifier
             .background(Color.White, shape = RoundedCornerShape(8.dp))
             .clip(RoundedCornerShape(8.dp))
-            .clickable(enabled = true) {
-                onClick()
-            }
+            .combinedClickable(
+                onClick = { onClick() },
+                onLongClick = { onLongPress() }
+            )
             .padding(paddingValues)
             .height(32.dp)
     ) {

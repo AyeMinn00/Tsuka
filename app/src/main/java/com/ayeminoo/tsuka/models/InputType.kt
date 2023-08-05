@@ -5,7 +5,9 @@ sealed class InputType {
     class Number(val value : String) : InputType()
     object Point : InputType()
 
-    object Delete : InputType()
+    object Clear : InputType()
+
+    object RemoveOnce : InputType()
 
 
 }

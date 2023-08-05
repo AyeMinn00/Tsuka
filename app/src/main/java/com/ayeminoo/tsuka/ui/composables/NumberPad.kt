@@ -14,9 +14,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ayeminoo.tsuka.models.InputType
-import com.ayeminoo.tsuka.models.InputType.Delete
+import com.ayeminoo.tsuka.models.InputType.Clear
 import com.ayeminoo.tsuka.models.InputType.Number
 import com.ayeminoo.tsuka.models.InputType.Point
+import com.ayeminoo.tsuka.models.InputType.RemoveOnce
 
 @Composable
 fun NumberPad(
@@ -108,7 +109,8 @@ fun NumberPad(
             ClickInput(
                 modifier = Modifier.weight(1f),
                 text = null, icon = Icons.Outlined.KeyboardArrowLeft,
-                onClick = { onInput(Delete) }
+                onClick = { onInput(RemoveOnce) },
+                onLongPress = { onInput(Clear)}
             )
         }
     }
