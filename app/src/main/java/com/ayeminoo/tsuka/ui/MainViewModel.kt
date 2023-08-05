@@ -10,6 +10,7 @@ import com.ayeminoo.tsuka.utils.CurrencyConverter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.math.RoundingMode
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -66,12 +67,14 @@ class MainViewModel @Inject constructor(
     }
 
     private fun convertAmount(base: String, amount: String, data: List<Currency>) {
-        val newData: List<Currency> = if (amount.isBlank()) {
-            emptyList()
-        } else {
-            CurrencyConverter(5, RoundingMode.HALF_UP).convert2(base, amount, data)
+        viewModelScope.launch(Dispatchers.IO) {
+            val newData: List<Currency> = if (amount.isBlank()) {
+                emptyList()
+            } else {
+                CurrencyConverter(5, RoundingMode.HALF_UP).convert(base, amount, data)
+            }
+            _currencies.update { newData }
         }
-        _currencies.update { newData }
     }
 
 }

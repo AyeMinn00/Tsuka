@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Tsuka</string>
+    <string name="click_current_currency">Click Current Currency</string>
 </resources>

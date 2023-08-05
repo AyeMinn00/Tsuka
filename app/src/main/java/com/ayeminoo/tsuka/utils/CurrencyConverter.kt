@@ -10,41 +10,43 @@ class CurrencyConverter(
     private val roundingMode: RoundingMode
 ) {
 
-    fun convert(baseCurrency: String, amount: String, data: Map<String, Float>): List<Currency>? {
-        if (baseCurrency == Constants.DEFAULT_BASE_CURRENCY)
-            return data.map {
-                Currency(
-                    it.key,
-                    it.value.toString()
-                )
-            }
-
-        val bigAmount = amount.toBigDecimal()
-        val fromBigValue = data[baseCurrency]?.toBigDecimal() ?: return null
-
-        return data.map {
-            val bigValue = it.value.toBigDecimal()
-            val convertedValue =
-                bigValue.divide(fromBigValue, scale, roundingMode).multiply(bigAmount)
-            Currency(
-                it.key,
-                convertedValue.toString()
-            )
-        }
-//            .filter {
-//            (it.currencyCode == "JPY" || it.currencyCode == "MMK")
+//    fun convert(baseCurrency: String, amount: String, data: Map<String, Float>): List<Currency>? {
+//        if (baseCurrency == Constants.DEFAULT_BASE_CURRENCY)
+//            return data.map {
+//                Currency(
+//                    it.key,
+//                    it.value.toString()
+//                )
+//            }
+//
+//        val bigAmount = amount.toBigDecimal()
+//        val fromBigValue = data[baseCurrency]?.toBigDecimal() ?: return null
+//
+//        return data.map {
+//            val bigValue = it.value.toBigDecimal()
+//            val convertedValue =
+//                bigValue.divide(fromBigValue, scale, roundingMode).multiply(bigAmount)
+//            Currency(
+//                it.key,
+//                convertedValue.toString()
+//            )
 //        }
-    }
+////            .filter {
+////            (it.currencyCode == "JPY" || it.currencyCode == "MMK")
+////        }
+//    }
 
-    fun convert2(baseCurrency: String, amount: String, rates: List<Currency>): List<Currency> {
+    fun convert(baseCurrency: String, amount: String, rates: List<Currency>): List<Currency> {
         val data: Map<String, String> = rates.associateBy({ it.currencyCode }, { it.amount })
         if (baseCurrency == Constants.DEFAULT_BASE_CURRENCY)
-            return data.map {
-                Currency(
-                    it.key,
-                    it.value.toBigDecimal().multiply(amount.toBigDecimal()).toPlainString()
-                )
-            }
+            return data
+                .filterNot { item -> item.key == baseCurrency }
+                .map {
+                    Currency(
+                        it.key,
+                        it.value.toBigDecimal().multiply(amount.toBigDecimal()).toPlainString()
+                    )
+                }
 
         val bigAmount = try {
             amount.toBigDecimal()
@@ -52,7 +54,9 @@ class CurrencyConverter(
             return emptyList()
         }
         val fromBigValue = data[baseCurrency]?.toBigDecimal() ?: return emptyList()
-        return data.map {
+        return data
+            .filterNot { item -> item.key == baseCurrency }
+            .map {
             val bigValue = it.value.toBigDecimal()
             val convertedValue = convertCurrency(
                 bigAmount,

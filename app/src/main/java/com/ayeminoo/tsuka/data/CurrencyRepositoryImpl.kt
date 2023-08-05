@@ -1,5 +1,6 @@
 package com.ayeminoo.tsuka.data
 
+import com.ayeminoo.tsuka.constants.Constants
 import com.ayeminoo.tsuka.data.api.model.DataState.Error
 import com.ayeminoo.tsuka.data.api.model.DataState.Success
 import com.ayeminoo.tsuka.data.local.datastore.PrefStore
@@ -37,7 +38,8 @@ class CurrencyRepositoryImpl @Inject constructor(
             when (val response = remoteDataSource.getLatestCurrency()) {
                 is Success -> {
                     localDataSource.insertCurrency(
-                        response.data.rates
+                        response.data.rates.toMutableMap()
+                            .apply { put(Constants.DEFAULT_BASE_CURRENCY, 1.toDouble()) }
                             .map { map ->
                                 CurrencyEntity(
                                     map.key,
