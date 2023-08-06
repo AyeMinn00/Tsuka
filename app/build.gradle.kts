@@ -130,6 +130,7 @@ dependencies {
     kapt("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     testImplementation("androidx.room:room-testing:$roomVersion")
+    androidTestImplementation("androidx.room:room-testing:$roomVersion")
 
     // Hilt
     implementation("com.google.dagger:hilt-android:2.46.1")

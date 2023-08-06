@@ -39,7 +39,7 @@ class CalculatorTest {
     }
 
     @Test
-    fun addDecimalPoint_ShouldAddPointAtLast(){
+    fun addDecimalPoint_ShouldAddPointAtLast() {
         val input = "123"
         val actual = Calculator.addDecimalPoint(input)
         val expected = "123."
@@ -47,12 +47,40 @@ class CalculatorTest {
     }
 
     @Test
-    fun addDecimalPoint_ShouldNotAddPoint_WhenInputHasAlreadyDecimal(){
+    fun addDecimalPoint_ShouldNotAddPoint_WhenInputHasAlreadyDecimal() {
         val input = "12.3"
         val actual = Calculator.addDecimalPoint(input)
         val expected = "12.3"
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun addInput_ShouldAppendInLast() {
+        val prevStr = "1"
+        val input = "2"
+        val actual = Calculator.addInput(prevStr, input)
+        val expected = "12"
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun addInput_ShouldRemoveFirstCharBeforeAppend_WhenPrevValueStartsWithZero() {
+        val prevStr = "0"
+        val input = "1"
+        val actual = Calculator.addInput(prevStr, input)
+        val expected = "1"
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun addInput_ShouldNotRemoveFirstZero_WhenPrevValueHasDecimal() {
+        val prevStr = "0.1"
+        val input = "1"
+        val actual = Calculator.addInput(prevStr, input)
+        val expected = "0.11"
+        assertEquals(expected, actual)
+    }
+
 
 }
 

@@ -13,4 +13,6 @@ interface CurrencyRepository {
 
     suspend fun setBaseCurrency(cur: String)
 
+    fun getLastUpdatedDateTime() : Flow<String>
+
 }

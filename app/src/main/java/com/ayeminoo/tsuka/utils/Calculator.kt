@@ -16,13 +16,15 @@ object Calculator {
 
     fun addDecimalPoint(valueStr: String): String {
         val value = valueStr.trim()
-        if (value.contains(POINT)) return value
+        if (value.contains(POINT) || value.isEmpty()) return value
         return value.plus(POINT)
     }
 
-    fun addInput(prevStr : String, newStr : String) : String {
-        val prevValue = prevStr.trim()
+    fun addInput(prevStr: String, newStr: String): String {
+        var prevValue = prevStr.trim()
         val newValue = newStr.trim()
+        if (prevValue.isNotEmpty() && prevValue.first() == '0' && !prevValue.contains(POINT))
+            prevValue = prevValue.substring(1)
         return prevValue.plus(newValue)
     }
 

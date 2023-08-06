@@ -17,7 +17,8 @@ object DbModule {
     @Singleton
     @Provides
     fun provideDb(@ApplicationContext context: Context) =
-        Room.databaseBuilder(context, CurrencyDb::class.java, "tsuka.db").build()
+        Room.databaseBuilder(context, CurrencyDb::class.java, "tsuka.db")
+            .build()
 
     @Singleton
     @Provides

@@ -31,6 +31,9 @@ class MainViewModel @Inject constructor(
     private val _currencies = MutableStateFlow<List<Currency>>(emptyList())
     val currencies = _currencies.asStateFlow()
 
+    private val _lastUpdate = MutableStateFlow("")
+    val lastUpdate = _lastUpdate.asStateFlow()
+
     init {
         viewModelScope.launch {
             repo.currencies.collect { value ->
@@ -42,6 +45,11 @@ class MainViewModel @Inject constructor(
             repo.getBaseCurrency().collect { currentBaseCurrency ->
                 _baseCurrency.update { currentBaseCurrency }
                 onUpdateCurrencies(currentBaseCurrency)
+            }
+        }
+        viewModelScope.launch {
+            repo.getLastUpdatedDateTime().collect { dateTime ->
+                _lastUpdate.update { dateTime }
             }
         }
         refreshData()

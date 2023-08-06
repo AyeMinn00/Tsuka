@@ -27,7 +27,7 @@ fun CurrencyList(
                 CurrencyRow(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp),
+                        .padding(vertical = 8.dp , horizontal = 16.dp),
                     currency = currency
                 )
             }

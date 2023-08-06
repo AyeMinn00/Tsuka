@@ -11,6 +11,7 @@ import com.ayeminoo.tsuka.domain.CurrencyRepository
 import com.ayeminoo.tsuka.domain.LocalDataSource
 import com.ayeminoo.tsuka.domain.RemoteDataSource
 import com.ayeminoo.tsuka.models.Currency
+import com.ayeminoo.tsuka.utils.DateFormatter
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -37,6 +38,9 @@ class CurrencyRepositoryImpl @Inject constructor(
         withContext(dispatcher) {
             when (val response = remoteDataSource.getLatestCurrency()) {
                 is Success -> {
+                    prefDataSource.saveUpdatedTimeStamp(
+                        DateFormatter().current()
+                    )
                     localDataSource.insertCurrency(
                         response.data.rates.toMutableMap()
                             .apply { put(Constants.DEFAULT_BASE_CURRENCY, 1.toDouble()) }
@@ -63,5 +67,8 @@ class CurrencyRepositoryImpl @Inject constructor(
         prefDataSource.saveBaseCurrency(cur)
     }
 
+    override fun getLastUpdatedDateTime(): Flow<String> {
+        return prefDataSource.getUpdatedTimeStamp
+    }
 
 }
