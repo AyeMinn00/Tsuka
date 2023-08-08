@@ -9,6 +9,7 @@ import javax.inject.Inject
 class DefaultRemoteDataSource @Inject constructor(
     private val openExchangeApiService: OpenExchangeApiService
 ) : RemoteDataSource {
+
     override suspend fun getLatestCurrency(): DataState<LatestJson> {
         return safeApiCall { openExchangeApiService.fetchLatest() }
     }

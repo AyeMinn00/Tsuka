@@ -32,4 +32,9 @@ object DataModule {
     @Provides
     fun provideDataStore(@ApplicationContext context: Context) = PrefStore(context)
 
+    @Provides
+    fun provideApplicationContext(@ApplicationContext context: Context): Context {
+        return context
+    }
+
 }

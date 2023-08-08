@@ -51,7 +51,7 @@ fun BaseCurrencyAndInputRow(
                 color = Color.Black,
                 style = TextStyle(
                     fontSize = 16.sp
-                )
+                ),
             )
             Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = null)
         }

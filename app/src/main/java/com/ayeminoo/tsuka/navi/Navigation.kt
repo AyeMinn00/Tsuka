@@ -11,11 +11,6 @@ import com.ayeminoo.tsuka.navi.Destinations.HOME_ROUTE
 import com.ayeminoo.tsuka.ui.CurrencyHomeScreen
 import com.ayeminoo.tsuka.ui.basecurrency.BaseCurrencySelectionScreen
 
-object Destinations {
-    const val HOME_ROUTE = "HOME"
-    const val BASE_CURRENCY_SELECTION_ROUTE = "BASE_CURRENCY_SELECTION"
-}
-
 
 @Composable
 fun TsukaNavHost(

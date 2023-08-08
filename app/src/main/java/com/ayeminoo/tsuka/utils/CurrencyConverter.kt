@@ -1,6 +1,6 @@
 package com.ayeminoo.tsuka.utils
 
-import com.ayeminoo.tsuka.constants.Constants
+import com.ayeminoo.tsuka.constants.Constants.DEFAULT_BASE_CURRENCY
 import com.ayeminoo.tsuka.models.Currency
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -10,44 +10,33 @@ class CurrencyConverter(
     private val roundingMode: RoundingMode
 ) {
 
-//    fun convert(baseCurrency: String, amount: String, data: Map<String, Float>): List<Currency>? {
-//        if (baseCurrency == Constants.DEFAULT_BASE_CURRENCY)
-//            return data.map {
-//                Currency(
-//                    it.key,
-//                    it.value.toString()
-//                )
-//            }
-//
-//        val bigAmount = amount.toBigDecimal()
-//        val fromBigValue = data[baseCurrency]?.toBigDecimal() ?: return null
-//
-//        return data.map {
-//            val bigValue = it.value.toBigDecimal()
-//            val convertedValue =
-//                bigValue.divide(fromBigValue, scale, roundingMode).multiply(bigAmount)
-//            Currency(
-//                it.key,
-//                convertedValue.toString()
-//            )
-//        }
-////            .filter {
-////            (it.currencyCode == "JPY" || it.currencyCode == "MMK")
-////        }
-//    }
-
     fun convert(baseCurrency: String, amount: String, rates: List<Currency>): List<Currency> {
         val data: Map<String, String> = rates.associateBy({ it.currencyCode }, { it.amount })
-        if (baseCurrency == Constants.DEFAULT_BASE_CURRENCY)
-            return data
-                .filterNot { item -> item.key == baseCurrency }
-                .map {
-                    Currency(
-                        it.key,
-                        it.value.toBigDecimal().multiply(amount.toBigDecimal()).toPlainString()
-                    )
-                }
+        return if (baseCurrency == DEFAULT_BASE_CURRENCY)
+            convertForBaseUSD(amount, data)
+        else convertForBaseNotUSD(baseCurrency, amount, data)
+    }
 
+    private fun convertForBaseUSD(amount: String, data: Map<String, String>): List<Currency> {
+        return data
+            .filterNot { item -> item.key == DEFAULT_BASE_CURRENCY }
+            .map {
+                Currency(
+                    currencyCode = it.key,
+                    amount = Calculator.formatOutput(
+                        it.value
+                            .toBigDecimal()
+                            .multiply(amount.toBigDecimal())
+                    )
+                )
+            }
+    }
+
+    private fun convertForBaseNotUSD(
+        baseCurrency: String,
+        amount: String,
+        data: Map<String, String>
+    ): List<Currency> {
         val bigAmount = try {
             amount.toBigDecimal()
         } catch (ne: NumberFormatException) {
@@ -57,30 +46,30 @@ class CurrencyConverter(
         return data
             .filterNot { item -> item.key == baseCurrency }
             .map {
-            val bigValue = it.value.toBigDecimal()
-            val convertedValue = convertCurrency(
-                bigAmount,
-                fromRate = fromBigValue.toDouble(),
-                toRate = bigValue.toDouble()
-            )
-            Currency(
-                it.key,
-                convertedValue.toPlainString()
-            )
-        }
+                val bigValue = it.value.toBigDecimal()
+                val convertedValue = convertCurrency(
+                    bigAmount,
+                    fromRate = fromBigValue.toDouble(),
+                    toRate = bigValue.toDouble()
+                )
+                Currency(
+                    currencyCode = it.key,
+                    amount = Calculator.formatOutput(convertedValue)
+                )
+            }
     }
 
 
     private fun convertCurrency(amount: BigDecimal, fromRate: Double, toRate: Double): BigDecimal {
-        val valueInDollars = convertAnyCurrencyToDollar(amount, fromRate)
-        return convertDollarToAnyCurrency(valueInDollars, toRate)
+        val valueInDollars = convertAnyCurrencyToUSD(amount, fromRate)
+        return convertUSDToAnyCurrency(valueInDollars, toRate)
     }
 
-    private fun convertAnyCurrencyToDollar(amount: BigDecimal, fromRate: Double): BigDecimal {
-        return amount.divide(BigDecimal.valueOf(fromRate), scale, RoundingMode.HALF_UP)
+    private fun convertAnyCurrencyToUSD(amount: BigDecimal, fromRate: Double): BigDecimal {
+        return amount.divide(fromRate.toBigDecimal(), scale, roundingMode)
     }
 
-    private fun convertDollarToAnyCurrency(dollarValue: BigDecimal, toRate: Double): BigDecimal {
-        return dollarValue.multiply(BigDecimal.valueOf(toRate))
+    private fun convertUSDToAnyCurrency(usd: BigDecimal, toRate: Double): BigDecimal {
+        return usd.multiply(toRate.toBigDecimal())
     }
 }

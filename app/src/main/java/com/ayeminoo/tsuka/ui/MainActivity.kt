@@ -14,10 +14,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TsukaTheme(darkTheme = false) {
-//                CurrencyHomeScreen(
-//                    modifier = Modifier.fillMaxWidth(),
-//                    viewModel = hiltViewModel()
-//                )
                 TsukaNavHost()
             }
         }

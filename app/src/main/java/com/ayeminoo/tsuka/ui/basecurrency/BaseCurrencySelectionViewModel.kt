@@ -15,9 +15,6 @@ class BaseCurrencySelectionViewModel @Inject constructor(
     private val repo: CurrencyRepository
 ) : ViewModel() {
 
-//    private val _currencies = MutableStateFlow<List<Currency>>(emptyList())
-//    val currencies = _currencies.asStateFlow()
-
     val currencies: Flow<List<Currency>> =
         repo.getBaseCurrency().combine(repo.currencies) { baseCurrency, currenciesData ->
             currenciesData.map {
@@ -28,14 +25,6 @@ class BaseCurrencySelectionViewModel @Inject constructor(
                 )
             }
         }
-
-//    init {
-//        viewModelScope.launch {
-//            repo.currencies.collect { value ->
-//                _currencies.update { value }
-//            }
-//        }
-//    }
 
     fun selectBaseCurrency(cur: String) {
         viewModelScope.launch {

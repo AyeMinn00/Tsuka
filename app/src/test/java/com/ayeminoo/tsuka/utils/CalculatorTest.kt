@@ -81,6 +81,21 @@ class CalculatorTest {
         assertEquals(expected, actual)
     }
 
+    @Test
+    fun nothing_shouldReturnTrue_WhenInputHasNoSignificantValue(){
+        val input = "0.00000"
+        val actual = Calculator.nothing(input)
+        val expected = true
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun nothing_shouldReturnFalse_WhenInputHasSignificantValue(){
+        val input = "0.0001"
+        val actual = Calculator.nothing(input)
+        val expected = false
+        assertEquals(expected, actual)
+    }
 
 }
 

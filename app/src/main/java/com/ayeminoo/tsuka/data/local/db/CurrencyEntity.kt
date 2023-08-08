@@ -17,3 +17,10 @@ fun CurrencyEntity.toVo() = Currency(
 )
 
 fun List<CurrencyEntity>.toDomainModel() = map { item -> item.toVo() }
+
+fun Map<String, Double>.toEntities() = map { map ->
+    CurrencyEntity(
+        map.key,
+        map.value.toBigDecimal().toPlainString()
+    )
+}

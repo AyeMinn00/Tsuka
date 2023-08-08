@@ -110,6 +110,8 @@ dependencies {
     // Compose
     val composeBom = platform("androidx.compose:compose-bom:2023.06.01")
     implementation(composeBom)
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    debugImplementation("androidx.compose.ui:ui-tooling")
 
     // Material Design 2
     implementation("androidx.compose.material:material")
@@ -148,9 +150,11 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
-    debugImplementation("androidx.compose.ui:ui-tooling")
     androidTestImplementation("androidx.navigation:navigation-testing:2.6.0")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.10.0")
+    androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.10.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
 
     implementation("com.jakewharton.timber:timber:5.0.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
